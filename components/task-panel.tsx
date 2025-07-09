@@ -345,14 +345,18 @@ export function TaskPanel({ canAccessTaskPanel, currentUserRole, tasks, addTask,
           <ul className="space-y-4">
             {tasks
               .slice()
-              .reverse()
+              .sort((a, b) => b.id - a.id) // Sort by ID descending to show newest first
+              .slice(0, 10) // Show only last 10 tasks
               .map((task) => (
-                <li key={task.id} className="bg-gray-50 p-4 rounded-xl flex justify-between items-center shadow-sm">
+                <li key={`recent-task-${task.id}`} className="bg-gray-50 p-4 rounded-xl flex justify-between items-center shadow-sm transition-all duration-300 hover:shadow-md">
                   <div>
-                    <p className="text-lg font-medium text-gray-900">{task.name}</p>
+                    <p className="text-lg font-medium text-gray-900">#{task.id} - {task.name}</p>
                     <p className="text-sm text-gray-600">
                       {t("assignRobot")}: <span className="font-semibold">{task.robot}</span> - Status:{" "}
                       <span className="font-semibold">{task.status}</span>
+                    </p>
+                    <p className="text-xs text-gray-500">
+                      {task.pickUp} → {task.dropOff} | Priority: {task.priority}
                     </p>
                     {task.signature && <p className="text-xs text-gray-500">Signed by: {task.signature}</p>}
                   </div>

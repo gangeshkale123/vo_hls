@@ -30,7 +30,7 @@ export function HospitalDashboard() {
   const t = useCallback((key: string) => translations[selectedLanguage][key] || key, [selectedLanguage])
 
   const { notifications, addNotification } = useNotifications()
-  const { tasks, addTask, updateTask, inventory } = useTasks(emergencyStopped, hasUserInteracted, addNotification, t)
+  const { tasks, addTask, updateTask, inventory, removeCompletedTask } = useTasks(emergencyStopped, hasUserInteracted, addNotification, t)
   const { voiceCommandInput, isListening, handleVoiceCommandToggle } = useVoiceCommand(
     selectedLanguage,
     t,

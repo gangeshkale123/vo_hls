@@ -12,6 +12,11 @@ export function DeliveryDashboard({ tasks, openDigitalSignature, canManageRoutes
   // Get unique robots from tasks to count active robots
   const activeRobots = [...new Set(tasks.filter(task => task.status === "In Transit" || task.status === "Pending").map(task => task.robot))].length
   const totalRobots = 4 // Total number of robots in the system
+  
+  // Calculate real-time statistics
+  const totalDeliveries = tasks.length
+  const completedTasks = tasks.filter((task) => task.status === "Delivered").length
+  const inProgressTasks = tasks.filter((task) => task.status === "In Transit" || task.status === t("attemptingRedelivery")).length
 
   return (
     <div className="flex-1 bg-white p-8 rounded-2xl shadow-sm overflow-auto">
@@ -22,7 +27,7 @@ export function DeliveryDashboard({ tasks, openDigitalSignature, canManageRoutes
         <div className="bg-blue-50 p-6 rounded-xl flex items-center justify-between">
           <div>
             <h3 className="text-lg font-semibold text-blue-700">{t("totalDeliveries")}</h3>
-            <p className="text-4xl font-extrabold text-blue-900 mt-1">{tasks.length}</p>
+            <p className="text-4xl font-extrabold text-blue-900 mt-1">{totalDeliveries}</p>
           </div>
           <Truck className="text-blue-400 opacity-50" size={48} />
         </div>
@@ -30,9 +35,7 @@ export function DeliveryDashboard({ tasks, openDigitalSignature, canManageRoutes
         <div className="bg-green-50 p-6 rounded-xl flex items-center justify-between">
           <div>
             <h3 className="text-lg font-semibold text-green-700">{t("completed")}</h3>
-            <p className="text-4xl font-extrabold text-green-900 mt-1">
-              {tasks.filter((task) => task.status === "Delivered").length}
-            </p>
+            <p className="text-4xl font-extrabold text-green-900 mt-1">{completedTasks}</p>
           </div>
           <CheckCircle className="text-green-400 opacity-50" size={48} />
         </div>
@@ -40,9 +43,7 @@ export function DeliveryDashboard({ tasks, openDigitalSignature, canManageRoutes
         <div className="bg-yellow-50 p-6 rounded-xl flex items-center justify-between">
           <div>
             <h3 className="text-lg font-semibold text-yellow-700">{t("inProgress")}</h3>
-            <p className="text-4xl font-extrabold text-yellow-900 mt-1">
-              {tasks.filter((task) => task.status === "In Transit" || task.status === t("attemptingRedelivery")).length}
-            </p>
+            <p className="text-4xl font-extrabold text-yellow-900 mt-1">{inProgressTasks}</p>
           </div>
           <Clock className="text-yellow-400 opacity-50" size={48} />
         </div>
@@ -153,7 +154,7 @@ export function DeliveryDashboard({ tasks, openDigitalSignature, canManageRoutes
             <tbody className="divide-y divide-gray-200">
               {tasks.length > 0 ? (
                 tasks.map((task) => (
-                  <tr key={task.id} className="hover:bg-gray-50">
+                  <tr key={`task-${task.id}`} className="hover:bg-gray-50 transition-colors duration-200">
                     <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{task.id}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{task.name}</td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-700">{task.pickUp}</td>

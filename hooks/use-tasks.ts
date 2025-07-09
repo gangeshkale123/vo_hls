@@ -26,6 +26,7 @@ export interface Task {
 
 export function useTasks(emergencyStopped: boolean, hasUserInteracted: boolean, addNotification: any, t: any) {
   const [tasks, setTasks] = useState<Task[]>([])
+  const [taskIdCounter, setTaskIdCounter] = useState(1)
   const [inventory, setInventory] = useState({
     "Surgical Masks": 500,
     "Disposable Gloves": 1200,
@@ -51,7 +52,7 @@ export function useTasks(emergencyStopped: boolean, hasUserInteracted: boolean, 
 
   useEffect(() => {
     // Initial dummy tasks
-    setTasks([
+    const initialTasks = [
       {
         id: 1,
         name: "Medication Delivery",
@@ -69,8 +70,46 @@ export function useTasks(emergencyStopped: boolean, hasUserInteracted: boolean, 
         requestedBy: "Dr. Smith",
         specialInstructions: "",
       },
-      // ... other initial tasks
+      {
+        id: 2,
+        name: "Lab Sample Transport",
+        robot: "Robot B",
+        status: "Pending",
+        progress: 0,
+        room: "Laboratory",
+        signatureNeeded: false,
+        priority: "Medium",
+        compartment: "2",
+        refusalCount: 0,
+        pickUp: "Room 205",
+        dropOff: "Laboratory",
+        patientId: "P205",
+        requestedBy: "Nurse Johnson",
+        specialInstructions: "Handle with care",
+      },
+      {
+        id: 3,
+        name: "Blood Transport",
+        robot: "Robot C",
+        status: "In Transit",
+        progress: 45,
+        room: "Blood Bank",
+        signatureNeeded: true,
+        priority: "Emergency",
+        compartment: "3",
+        refusalCount: 0,
+        pickUp: "OR 1",
+        dropOff: "Blood Bank",
+        patientId: "P301",
+        requestedBy: "Dr. Wilson",
+        specialInstructions: "Urgent - Type O Negative",
+      },
+    ]
+    
+    setTasks([
+      ...initialTasks
     ])
+    setTaskIdCounter(initialTasks.length + 1)
 
     const interval = setInterval(() => {
       setTasks((prevTasks) =>
@@ -125,7 +164,9 @@ export function useTasks(emergencyStopped: boolean, hasUserInteracted: boolean, 
   }, [emergencyStopped, hasUserInteracted, addNotification, t])
 
   const addTask = (taskData: Partial<Task>) => {
-    const newId = tasks.length > 0 ? Math.max(...tasks.map((t) => t.id)) + 1 : 1
+    const newId = taskIdCounter
+    setTaskIdCounter(prev => prev + 1)
+    
     const newTask: Task = {
       id: newId,
       name: taskData.name || "",
@@ -154,8 +195,19 @@ export function useTasks(emergencyStopped: boolean, hasUserInteracted: boolean, 
     addNotification(`New task "${newTask.name}" assigned to ${newTask.robot}.`)
   }
 
+  const removeCompletedTask = (taskId: number) => {
+    setTasks((prevTasks) => prevTasks.filter(task => task.id !== taskId))
+  }
+
   const updateTask = (taskId: number, updates: Partial<Task>) => {
     setTasks((prevTasks) => prevTasks.map((task) => (task.id === taskId ? { ...task, ...updates } : task)))
+    
+    // Remove completed tasks after a delay to show completion
+    if (updates.status === "Delivered") {
+      setTimeout(() => {
+        removeCompletedTask(taskId)
+      }, 10000) // Remove after 10 seconds
+    }
   }
 
   return {
@@ -163,5 +215,6 @@ export function useTasks(emergencyStopped: boolean, hasUserInteracted: boolean, 
     inventory,
     addTask,
     updateTask,
+    removeCompletedTask,
   }
 }
