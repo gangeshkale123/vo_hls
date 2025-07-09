@@ -23,7 +23,7 @@ export function Sidebar({ activeSection, setActiveSection, canAccessTaskPanel, c
     <aside className="w-64 bg-white shadow-lg p-6 flex flex-col rounded-r-2xl m-4">
       <div className="flex items-center mb-10">
         <Truck className="text-blue-600 mr-2" size={28} />
-        <h1 className="text-2xl font-bold text-gray-800">Nurse Mate</h1>
+        <h1 className="text-2xl font-bold text-gray-800">HospiGo</h1>
       </div>
 
       <nav className="flex-1">

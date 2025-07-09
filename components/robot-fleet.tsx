@@ -75,7 +75,7 @@ export function RobotFleet({ t }: RobotFleetProps) {
       status: "active",
       battery: 85,
       batteryHealth: 92,
-      temperature: 42,
+      temperature: Math.random() * 2 + 2, // Random between 2-4°C
       signalStrength: 95,
       location: "Ward A - Room 101",
       currentTask: "Medication Delivery",
@@ -98,7 +98,7 @@ export function RobotFleet({ t }: RobotFleetProps) {
       status: "charging",
       battery: 25,
       batteryHealth: 88,
-      temperature: 38,
+      temperature: Math.random() * 2 + 2, // Random between 2-4°C
       signalStrength: 87,
       location: "Charging Station 1",
       tasksCompleted: 31,
@@ -122,7 +122,7 @@ export function RobotFleet({ t }: RobotFleetProps) {
       status: "maintenance",
       battery: 60,
       batteryHealth: 76,
-      temperature: 45,
+      temperature: Math.random() * 2 + 2, // Random between 2-4°C
       signalStrength: 92,
       location: "Maintenance Bay",
       tasksCompleted: 19,
@@ -144,7 +144,7 @@ export function RobotFleet({ t }: RobotFleetProps) {
       status: "idle",
       battery: 78,
       batteryHealth: 95,
-      temperature: 40,
+      temperature: Math.random() * 2 + 2, // Random between 2-4°C
       signalStrength: 89,
       location: "Storage Room",
       tasksCompleted: 27,
@@ -190,7 +190,7 @@ export function RobotFleet({ t }: RobotFleetProps) {
           }
 
           // Update temperature slightly
-          updates.temperature = robot.temperature + (Math.random() - 0.5) * 2
+          updates.temperature = Math.max(2, robot.temperature + (Math.random() - 0.5) * 2)
 
           // Update signal strength
           updates.signalStrength = Math.max(70, Math.min(100, robot.signalStrength + (Math.random() - 0.5) * 5))
