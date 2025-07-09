@@ -566,7 +566,7 @@ export function RobotFleet({ t }: RobotFleetProps) {
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="text-sm text-gray-900">{robot.batteryHealth}%</div>
-                    <div className="text-sm text-gray-500">{Math.round(robot.temperature)}°C</div>
+                    <div className="text-sm text-gray-500">{robot.temperature.toFixed(1)}°C</div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="text-sm text-gray-900">{robot.tasksCompleted}</div>
