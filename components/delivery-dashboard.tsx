@@ -9,6 +9,10 @@ interface DeliveryDashboardProps {
 }
 
 export function DeliveryDashboard({ tasks, openDigitalSignature, canManageRoutes, t }: DeliveryDashboardProps) {
+  // Get unique robots from tasks to count active robots
+  const activeRobots = [...new Set(tasks.filter(task => task.status === "In Transit" || task.status === "Pending").map(task => task.robot))].length
+  const totalRobots = 4 // Total number of robots in the system
+
   return (
     <div className="flex-1 bg-white p-8 rounded-2xl shadow-sm overflow-auto">
       <h2 className="text-3xl font-bold mb-6 text-gray-800">{t("deliveryDashboard")}</h2>
@@ -43,14 +47,14 @@ export function DeliveryDashboard({ tasks, openDigitalSignature, canManageRoutes
           <Clock className="text-yellow-400 opacity-50" size={48} />
         </div>
 
-        <div className="bg-red-50 p-6 rounded-xl flex items-center justify-between">
+        <div className="bg-purple-50 p-6 rounded-xl flex items-center justify-between">
           <div>
-            <h3 className="text-lg font-semibold text-red-700">{t("pending")}</h3>
-            <p className="text-4xl font-extrabold text-red-900 mt-1">
-              {tasks.filter((task) => task.status === "Pending").length}
+            <h3 className="text-lg font-semibold text-purple-700">Active Robots</h3>
+            <p className="text-4xl font-extrabold text-purple-900 mt-1">
+              {activeRobots}/{totalRobots}
             </p>
           </div>
-          <Package className="text-red-400 opacity-50" size={48} />
+          <Package className="text-purple-400 opacity-50" size={48} />
         </div>
       </div>
 

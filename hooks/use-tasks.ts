@@ -27,9 +27,18 @@ export interface Task {
 export function useTasks(emergencyStopped: boolean, hasUserInteracted: boolean, addNotification: any, t: any) {
   const [tasks, setTasks] = useState<Task[]>([])
   const [inventory, setInventory] = useState({
-    "Medical Supplies": 150,
-    "Lab Kits": 75,
-    "Medication A": 200,
+    "Surgical Masks": 500,
+    "Disposable Gloves": 1200,
+    "Syringes (10ml)": 300,
+    "IV Bags (Saline)": 85,
+    "Blood Collection Tubes": 450,
+    "Gauze Bandages": 200,
+    "Antiseptic Wipes": 350,
+    "Thermometer Covers": 180,
+    "Oxygen Masks": 75,
+    "Medication Vials": 120,
+    "Lab Test Kits": 95,
+    "Surgical Instruments": 45,
   })
 
   const synthRef = useRef<any>(null)

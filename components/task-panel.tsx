@@ -144,10 +144,11 @@ export function TaskPanel({ canAccessTaskPanel, currentUserRole, tasks, addTask,
                 { label: t("medicationDelivery"), icon: "💊" },
                 { label: t("labSampleTransport"), icon: "🧪" },
                 { label: t("medicalEquipment"), icon: "🩺" },
-                { label: t("patientTransport"), icon: "🛌" },
                 { label: t("foodDelivery"), icon: "🍔" },
                 { label: t("textileService"), icon: "🧺" },
                 { label: t("wasteDisposal"), icon: "🗑️" },
+                { label: t("bloodTransport"), icon: "🩸" },
+                { label: t("oxygenDelivery"), icon: "🫁" },
               ].map((type) => (
                 <button
                   key={type.label}
